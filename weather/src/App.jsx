@@ -5,11 +5,16 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [location, setLocation] = useState("")
 
   async function getData() {
     let response = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Toronto?unitGroup=metric&key=FFYXH369VAFUZNNC2L7V2GSKG&contentType=json')
     let responseJSON = await response.json();
     console.log(responseJSON)
+  }
+
+  function updateLocation(input) {
+    setLocation(input.value)
   }
 
   function updateCount() {
@@ -22,6 +27,8 @@ function App() {
     <p>
      Hello world! The count is {count}.
      </p>
+     <input onChange={(event) => console.log(event.target.value)}></input>
+     <p>{location}</p>
      <button onClick={updateCount}>Click me!</button>
     </>
   )
