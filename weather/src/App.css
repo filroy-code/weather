@@ -1,6 +1,24 @@
+body {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: 100vw;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.weatherFeed {
+  display: grid;
+  grid-template-columns: 12vw 12vw 12vw 12vw 12vw 12vw 12vw;
+}
+
+.weatherCard {
+  margin: 10px;
+  padding: 4px;
+  border: 1px solid black;
+  width: 100px;
 }
