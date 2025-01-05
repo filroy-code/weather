@@ -1,26 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import WeatherFeed from './components/WeatherFeed'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
   const [location, setLocation] = useState("")
+  const [weatherData, setWeatherData] = useState([{datetime: '-5'},{datetime: '-4'}])
 
   async function getData(location) {
     let response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=FFYXH369VAFUZNNC2L7V2GSKG&contentType=json`)
     let responseJSON = await response.json();
-    console.log(responseJSON)
+    setWeatherData(responseJSON.days)
+    console.log(responseJSON.days)
   }
 
   function updateLocation(input) {
     setLocation(input)
   }
 
+  
+
   function updateCount() {
     setCount(count => count + 1);
     getData()
     console.log(location)
+  }
+
+  function arrayMap() {
+    weatherData.map((day) => console.log(day.datetime))
   }
 
   return (
@@ -30,7 +37,9 @@ function App() {
      </p>
      <input onChange={(event) => updateLocation(event.target.value)}></input>
      <p>{location}</p>
-     <button onClick={updateCount}>Click me!</button>
+     <button onClick={() => getData(location)}>Search</button>
+     <button onClick={arrayMap}>Arraycheck</button>
+      {weatherData ? <WeatherFeed weatherArray={weatherData} /> : null}
     </>
   )
 }
