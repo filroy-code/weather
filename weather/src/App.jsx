@@ -4,13 +4,14 @@ import './App.css'
 
 function App() {
   const [location, setLocation] = useState("")
-  const [weatherData, setWeatherData] = useState([{datetime: '-5'},{datetime: '-4'}])
+  const [resolvedAddress, setResolvedAddress] = useState("")
   let [weatherFeed, setWeatherFeed] = useState()
 
   async function getData(location) {
     let response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=FFYXH369VAFUZNNC2L7V2GSKG&contentType=json`)
     let responseJSON = await response.json();
     setWeatherFeed(generateWeatherFeed(responseJSON.days))
+    setResolvedAddress(responseJSON.resolvedAddress)
   }
 
   function updateLocation(input) {
@@ -20,10 +21,14 @@ function App() {
   return (
     <>
     <h1>Weather App</h1>
-     <input onChange={(event) => updateLocation(event.target.value)}></input>
-     <p>{location}</p>
+     <input placeholder='Enter a city...' onChange={(event) => updateLocation(event.target.value)}></input>
      <button onClick={() => getData(location)}>Search</button>
-      {weatherFeed ? <div className="weatherFeed">{weatherFeed}</div> : null}
+      {weatherFeed ? 
+      <>
+      <h3>14-day forecast for <strong>{resolvedAddress}</strong></h3>
+      <div className="weatherFeed">{weatherFeed}
+      </div>
+      </> : null}
     </>
   )
 }
